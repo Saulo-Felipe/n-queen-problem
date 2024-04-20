@@ -1,4 +1,4 @@
-const n = 8;
+const n = 40;
 
 /**
  * [
@@ -14,7 +14,7 @@ const n = 8;
  */
 
 
-
+console.time();
 const gameBoard = Array.from({ length: n }, () => Array(n).fill(0));
 
 
@@ -26,19 +26,12 @@ function verifyIfNodeIsValid(l, c) {
     }
   }
 
-  // top right 
+  // top right
   for (let linePos = l, colPos = c; linePos > 0 && colPos < n; linePos--, colPos++) {
     if (gameBoard[linePos][colPos]) {
       return false
     }
   }
-
-  // bottom right
-  // for (let linePos = l, colPos = c; linePos < n && colPos < n; linePos++, colPos++) {
-  //   if (gameBoard[linePos][colPos]) {
-  //     return false
-  //   }
-  // }
 
   // top left
   for (let linePos = l, colPos = c; linePos >= 0 && colPos >= 0; linePos--, colPos--) {
@@ -46,45 +39,48 @@ function verifyIfNodeIsValid(l, c) {
       return false
     }
   }
-  
+
 
   return true;
 }
 
-// parei aqui: o que fazer quando nao tiver mais caminhos?
-
-
-async function searchNewNode(l, c) {
+function searchNewNode(l, c) {
   if (verifyIfNodeIsValid(l, c)) {
     gameBoard[l][c] = 1;
+
+    if (l < n-1) {
+      return searchNewNode(l+1, 0)
+    }
+
+    logData(l, c, 1);
+    return;
   }
 
-  logData();
-  await new Promise(resolve => setTimeout(resolve, 200));
 
   if (c < n-1) {
-    return searchNewNode(l, c + 1);
+    return searchNewNode(l, c+1)
   }
 
-  if (l < n-1) {
-    return searchNewNode(l + 1, 0);
+  const nextColPos = gameBoard[l-1].indexOf(1);
+  gameBoard[l-1].fill(0);
+
+  if (nextColPos == n-1) {
+    const newNextColPos = gameBoard[l-2].indexOf(1);
+    gameBoard[l-2].fill(0);
+    return searchNewNode(l-2, newNextColPos+1);
   }
 
-  return;
+  return searchNewNode(l-1, nextColPos+1);
 }
 
 searchNewNode(0, 0);
+console.timeEnd();
 
 
 
-
-
-function logData(l, c) {
+function logData(l, c, time) {
   console.clear();
-  let copyGameData = [...gameBoard];
-  // copyGameData[l][c] = "*";
-
-  let viewData = JSON.stringify(copyGameData).replaceAll("],[", "],\n[").replaceAll(",", ", ").replaceAll("] ,", "]");
-
-  console.log(viewData.slice(1, viewData.length-1));
+  for (let i in gameBoard) {
+    console.log(JSON.stringify(gameBoard[i]))
+  }
 }
