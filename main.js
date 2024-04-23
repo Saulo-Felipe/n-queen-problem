@@ -1,4 +1,4 @@
-const n = 40;
+// const n = 30;
 
 /**
  * [
@@ -15,7 +15,7 @@ const n = 40;
 
 
 console.time();
-const gameBoard = Array.from({ length: n }, () => Array(n).fill(0));
+// const gameBoard = Array.from({ length: n }, () => Array(n).fill(0));
 
 
 function verifyIfNodeIsValid(l, c) {
