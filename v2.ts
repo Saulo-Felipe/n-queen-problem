@@ -10,29 +10,33 @@ class TreeNode {
     this.previousNode = previousNode;
     this.data = this.previousNode?.data || this.data;
 
-    if (this.insertNewQueen(this.childNodeCount)) {
+    this.insertNewQueen();
+  }
+
+  public insertNewQueen(isFromBacktracking?: boolean) {
+    if (this.validateNewQueenPosition(isFromBacktracking ? this.clearLineAndSearchQueen() : undefined)) {
       this.childNodeCount++;
       new TreeNode(this);
-      logData(this.data);
     } else {
-      console.log(this);
+      console.log("back")
+      logData(this.data, "\n");
+      this.backtracking();
     }
   }
 
-  public insertNewQueen(childPos: number): boolean {
-    let linePos: number | null = null;
+  public backtracking() {
+    console.log("anterior: ", this?.previousNode?.previousNode?.data)
+    console.log("anterior2: ", this?.previousNode?.data)
+    this.previousNode?.insertNewQueen(true);
+  }
 
-    for (let l in this.data) { // encontra a linha que ainda nao tem rainha
-      if (!this.data[l].includes(1)) {
-        linePos = Number(l);
-        break;
-      }
-    }
+  public validateNewQueenPosition(defaultColumn?: number): boolean {
+    let linePos: number | null = this.searchLastLinePos();
 
     if (linePos === null) return false;
 
     mainLoop:
-    for (let columnPos = 0; columnPos < nQueen; columnPos++) {
+    for (let columnPos = defaultColumn ? defaultColumn : 0; columnPos < nQueen; columnPos++) {
       // column
       for (let l = 0; l < linePos; l++) {
         if (this.data[l][columnPos] === 1) {
@@ -62,21 +66,36 @@ class TreeNode {
     return false;
   }
 
-  public backtracking() {
-    if (this.childNodeCount < nQueen) {
-      new TreeNode(this);
+  private clearLineAndSearchQueen() {
+    const theLastLine = this.searchLastLinePos();
+    console.log("last: ", theLastLine)
+
+    if (theLastLine !== null) {
+      const queenPosition = this.data[theLastLine-1].indexOf(1) + 1;
+      this.data[theLastLine].fill(0);
+      console.log("limpei: ", queenPosition)
+
+      return queenPosition;
+    }
+  }
+
+  private searchLastLinePos() {
+    for (let l in this.data) { // encontra a linha que ainda nao tem rainha
+      if (!this.data[l].includes(1)) {
+        return Number(l);
+      }
     }
 
-    return this.previousNode?.backtracking();
+    return null
   }
 }
 
 const tree = new TreeNode(null);
 
 
-function logData(data: number[][]) {
-  console.log("\n---------------] Result [------------------");
+function logData(data: number[][], concat?: string) {
   for (let i of data) {
     console.log(JSON.stringify(i));
   }
+  console.log(concat)
 }
