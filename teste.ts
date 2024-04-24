@@ -1,5 +1,4 @@
-console.time();
-const nQueen = 35;
+const nQueen = 18;
 const stack: MainNode[] = [];
 
 class MainNode {
@@ -81,9 +80,13 @@ class MainNode {
 }
 
 function generateNewState(dataCopy: string) {
+  console.time("Generated: ");
+
   const newNode = createNode(dataCopy);
 
-  return isValidSolution(newNode)
+  isValidSolution(newNode)
+  console.timeEnd("Generated: ");
+  return;
 }
 
 function editLastState() {
@@ -115,4 +118,7 @@ function createNode(dataCopy: string): MainNode {
 
 generateNewState(JSON.stringify(Array.from({ length: nQueen }, () => Array(nQueen).fill(0))))
 console.log("N = ", nQueen);
-console.timeEnd();
+console.log("stack size: ", stack.length);
+stack[stack.length-1].data.forEach(item => {
+  console.log(JSON.stringify(item));
+})
