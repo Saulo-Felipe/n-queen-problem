@@ -1,5 +1,5 @@
 console.time();
-const nQueen = 35;
+const nQueen = 20;
 const stack: MainNode[] = [];
 
 class MainNode {
