@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>N-Rainhas</title>
+</head>
+<body class="flex flex-col justify-center items-center">
+
+  <h1 class="text-center font-bold text-2xl py-4">Atividade IA - Busca em profundidade</h1>
+
+  <div class="w-[50vw] flex flex-col items-center">
+    <div class="w-1/2">
+      <div class="flex">
+        <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-e-0 border-gray-300 rounded-s-md">
+          Valor de "N"
+        </span>
+        <input type="text" id="N" class="rounded-none rounded-e-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm p-2.5  " placeholder="Digite qualquer valor Inteiro">
+      </div>
+
+      <button id="get-solution" type="button" class="mt-4 w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Ver solução</button>
+    </div>
+  </div>
+
+  <div class="flex items-center justify-center bg-amber-900 p-4 mt-6">
+    <div class="w-max flex flex-col p-1 bg-white" id="container"></div>
+  </div>
+
+  <script src="v4-only-terminal.js"></script>
+  <script src="v4-graphic.js"></script> 
+</body>
+</html>
