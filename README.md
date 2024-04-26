@@ -1,3 +1,5 @@
+Dupla: Saulo José Felipe, Igor Sales Neri
+
 # Importante:
 -> Além da versão padrão que pode ser executada pelo terminal "nqueen.compilado.js", também existe uma versão web,
 onde é possível ter uma melhor visualização da solução (abrir o index.html no navegador).
