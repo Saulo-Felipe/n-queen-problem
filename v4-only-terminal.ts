@@ -2,6 +2,7 @@ function start(N: number) {
   const stack: MainNode[] = [];
   let solvedLineIndex = 0;
   let initialSearchIndex: number | undefined = undefined; // Evita loop infinito, armazenando a posição da coluna da ultima rainha
+  let nodeCount = 0;
 
   class MainNode {
     data: number[][] = [];
@@ -48,6 +49,7 @@ function start(N: number) {
 
   while (solvedLineIndex < N) {
     const newNode = new MainNode(stack[stack.length-1].data.map(row => row.slice())); // copia o estado anterior
+    nodeCount++;
     const isAdded = newNode.addNewQueen(initialSearchIndex);
 
     initialSearchIndex = undefined;
@@ -68,7 +70,18 @@ function start(N: number) {
     if (solvedLineIndex === N) break; // solução encontrada
   }
 
-  return stack[stack.length-1];
+  return {
+    data: stack[stack.length-1],
+    nodeCount
+  }
 }
 
-console.log(start(20).data);
+
+let table: any[] = [];
+for (let i = 4; i < 26; i++) {
+  const time = performance.now();
+  const {nodeCount} = start(16)
+  const timeEnd = performance.now();
+  table.push({"Iteração": i, "Solução encontrada": "Sim", "N. de nós": nodeCount, "Tempo de processamento": timeEnd - time})
+}
+console.table(table);
